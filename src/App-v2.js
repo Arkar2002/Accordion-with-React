@@ -1,4 +1,4 @@
-// To Open one Accordion at a time
+// To Open Multiple Accordion
 
 import { useState } from "react";
 
@@ -26,28 +26,15 @@ function App() {
 }
 
 function Accordion({ datas }) {
-  const [curOpen, setCurOpen] = useState(null);
-
   return (
     <div className="accordion">
       {datas.map((data, i) => (
-        <AccordionItem
-          key={i}
-          num={i}
-          title={data.title}
-          onOpen={setCurOpen}
-          curOpen={curOpen}
-        >
+        <AccordionItem key={i} num={i} title={data.title}>
           {data.text}
         </AccordionItem>
       ))}
 
-      <AccordionItem
-        num="23"
-        title="Test-1"
-        onOpen={setCurOpen}
-        curOpen={curOpen}
-      >
+      <AccordionItem num="23" title="Test-1">
         <p>Allow React Developer To:</p>
         <ul>
           <li>Break up UI into components</li>
@@ -59,17 +46,13 @@ function Accordion({ datas }) {
   );
 }
 
-function AccordionItem({ curOpen, num, title, onOpen, children }) {
-  const isOpen = num === curOpen;
-
-  function handleToggle(num) {
-    onOpen(isOpen ? null : num);
-  }
+function AccordionItem({ num, title, children }) {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div
       className={`item ${isOpen ? "open" : ""}`}
-      onClick={() => handleToggle(num)}
+      onClick={() => setIsOpen(!isOpen)}
     >
       <p className="number">{num < 9 ? `0${num}` : num}</p>
       <p className="title">{title}</p>
